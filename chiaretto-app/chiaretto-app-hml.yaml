@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: chiaretto-app-hml
+  namespace: argocd
+spec:
+  destination:
+    namespace: 'chiaretto-app-hml'
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    helm:
+      valueFiles:
+      - values.yaml
+    path: .
+    repoURL: https://github.com/lgchiaretto/chiaretto-app.git
+    targetRevision: hml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
